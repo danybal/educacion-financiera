@@ -1,0 +1,9 @@
+ISSSTE (Ordinario y damnificados)|11.5 
+ISSSTE (Especial)|14.5
+ISSSTE (Adquisición de bienes de uso duradero)|16.5
+HSBC|38.99
+BanBajio|39.99
+Profuturo|40.24
+Banamex|50
+Afirme|52
+Santander|60

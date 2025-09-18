@@ -1,0 +1,305 @@
+<div class="tab" id="tabsbutton">  
+  <button class="tablinks" onclick="openTab(event, 'interactivo1')" id="tab1">Calcula tu sanidad financiera</button>
+  <button class="tablinks" onclick="openTab(event, 'interactivo2')" id="tab2">Evalúa las opciones de ahorro más rentables</button>
+  <button class="tablinks" onclick="openTab(event, 'interactivo3')" id="tab3">Calcula tus opciones de crédito personal</button>
+  <button class="tablinks" onclick="openTab(event, 'interactivo4')" id="tab3">Memorama</button>
+</div>
+
+<div id="interactivo1" class="tabcontent scrollDivCalc">
+  <!--<h4>Indica tus ingresos y gastos</h4>-->
+      <form id="frmAprendeAinvertir" autocomplete="off">
+          <fieldset>            
+              <legend>Ingresos</legend>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <i class="fa fa-hand-holding-usd fa-lg" style="color:rgb(35, 91, 78);" aria-hidden="true"></i>
+                        <label for="inputIngresosFijos">Fijos</label>
+                        <div class="tooltip-container">
+                          <span class="tooltip-text tooltip-text-ingresos">Se refiere a las entradas regulares o recurrentes que tienen los hogares, como los sueldos, salarios, ganancias de negocios propios, intereses, pensiones o jubilaciones</span>
+                          <span class="glyphicon glyphicon-question-sign"></span>
+                        </div>
+                        <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputIngresosFijos" onchange = "updateIngresos(this.value)" placeholder="0" min="0" step="1" tabindex="1" />
+                      </div>
+                      <div class="form-group col-md-4">
+                        <i class="fa fa-donate fa-lg" style="color:rgb(35, 91, 78);" aria-hidden="true"></i>
+                        <label for="inputOtrosIngresos">Variables</label>
+                        <div class="tooltip-container">
+                          <span class="tooltip-text tooltip-text-ingresos">Ganancias imprevistas y otras entradas que se perciben en forma no periódica o una sola vez</span>
+                          <span class="glyphicon glyphicon-question-sign"></span>
+                        </div>
+                        <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputOtrosIngresos" onchange = "updateIngresos(this.value)" placeholder="0" min="0" step="1" tabindex="2" />
+                      </div>
+                      <div class="form-group has-success col-md-4">                                     
+                        <label for="inputTotalIngresos">Total de ingresos</label>
+                        <input type="text" class="form-control" id="inputTotalIngresos" value="0" disabled />
+                      </div>
+                    </div>
+        </fieldset>
+          <fieldset>
+            <legend>Gastos</legend>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-cutlery fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputAlimentacion">Alimentos</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Los gastos en bienes de consumo no duradero que realizan día a día los integrantes del hogar en alimentos, bebidas y tabaco.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputAlimentacion" onchange = "updateGastos(this.value)"  placeholder="0" min="0" step="1" tabindex="3" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-home fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputVivienda">Vivienda</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gasto en vivienda, servicios de conservación, energía eléctrica y combustibles. Incluye alquiler o hipoteca, predial, agua y energía de la vivienda.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputVivienda" onchange = "updateGastos(this.value)" placeholder="0" min="0" step="1" tabindex="4" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <i class="fa-solid fa-shirt  fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputVestidoCalzado">Vestido y calzado</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gastos realizados en prendas de vestir y calzado que realizan los miembros del hogar.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputVestidoCalzado" onchange = "updateGastos(this.value)"  placeholder="0" min="0" step="1" tabindex="5" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-toilet-paper fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputLimpiezaHogar">Limpieza para el hogar</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gasto en artículos y servicios para la limpieza, cuidados de la casa, enseres domésticos y muebles, cristalería, utensilios domésticos y blancos</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputLimpiezaHogar" onchange = "updateGastos(this.value)" placeholder="0" min="0" step="1" tabindex="6" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-heart fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputSalud">Salud</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gasto en cuidados de la salud. Incluye medicinas, atención hospitalaria y gasto en ambulancias.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputSalud" onchange = "updateGastos(this.value)" placeholder="0" min="0" step="1" tabindex="7" />
+                  </div>                  
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-bus fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputTransporte">Servicios y transporte</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gasto en transporte; adquisición, mantenimiento, accesorios y servicios para vehículos; comunicaciones.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputTransporte" onchange = "updateGastos(this.value)"  placeholder="0" min="0" step="1" tabindex="8" />
+                  </div>                  
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-graduation-cap fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputUtilesEscolares">Educación</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Gasto en servicios de educación, artículos educativos.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputUtilesEscolares" onchange = "updateGastos(this.value)" placeholder="0" min="0" step="1" tabindex="9" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-hands-wash fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputCuidadoPersonal">Cuidado personal</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Accesorios personales, maquillajes, cremas, shampoo, jabón, etc.</span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputCuidadoPersonal" onchange = "updateGastos(this.value)" placeholder="0" min="0" step="1" tabindex="10" />
+                  </div>              
+                  <div class="form-group col-md-4">
+                    <i class="fa fa-coins fa-lg" style="color:rgb(159, 34, 65);" aria-hidden="true"></i>
+                    <label for="inputOtrosGastos">Otros</label>
+                    <div class="tooltip-container">
+                      <span class="tooltip-text tooltip-text-gastos">Incluye indemnizaciones, ayuda a personas ajenas al hogar, contribuciones a iglesias, clubes </span>
+                      <span class="glyphicon glyphicon-question-sign"></span>
+                    </div>
+                    <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputOtrosGastos" onchange = "updateGastos(this.value)"  placeholder="0" min="0" step="1" tabindex="11" />
+                  </div>                  
+                </div>
+                <div class="form-row">
+                  <div class="form-group has-error col-md-8">                                     
+                    
+                    <input type="hidden" class="form-control" id="inputExtra1" value="0"  />
+                  </div>
+                  <div class="form-group has-error col-md-4">                                     
+                    <label for="inputTotalGastos">Total de gastos</label>
+                    <input type="text" class="form-control" id="inputTotalGastos" value="0" disabled />
+                  </div>
+                </div>
+          </fieldset>    
+                
+          <fieldset>
+            <legend>Ahorro</legend>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <i class="fa fa-university fa-lg" style="color:rgb(188, 149, 92 );" aria-hidden="true"></i>
+                  <label for="inputAhorro">Ahorro</label>   
+                  <div class="tooltip-container">
+                    <span class="tooltip-text tooltip-text-ahorros">Es la parte del ingreso que no se destina a consumir; es un flujo que da lugar a un aumento del patrimonioneto y representa el aplazamiento del consumo, la sustitución de consumo presente por consumo futuro.</span>
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                  </div>                                 
+                  <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="inputAhorro" placeholder="0" min="0" step="1" tabindex="12" />
+                </div>
+                
+                <div class="form-group col-md-8" align="center">
+                  <label>&nbsp; </label> 
+                  <div id="botones">
+                    <button type="reset" class="btn btn-default" tabindex="13" id="limpiar" onClick='limpiarformulario("#frmAprendeAinvertir");'><span class="glyphicon glyphicon-erase"></span> Limpiar </button>
+                    <button type="button" class="btn btn-primary" tabindex="14" id="calcularSalud"><span class="glyphicon glyphicon-ok"></span> Calcular </button>      
+                  </div>
+                </div>                
+              </div>
+          </fieldset>  
+          <div id="resultado"></div>
+        </form>  
+</div>
+
+<div id="interactivo2" class="tabcontent">
+  <div class="row">
+    <div class="col-md-12">
+      <form id="frmAhorro" autocomplete="off" >
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <i class="fa fa-money-check-alt fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+            <label for="monto">Monto del ahorro</label>                                    
+            <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="monto" placeholder="$" min="1" step="1" tabindex="1" />
+          </div>
+          <div class="form-group col-md-3">
+            <i class="fa fa-calendar-alt fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+            <label for="periodicidad">Plazo capitalizable</label>    
+            <select name="Periodicidad" id="periodicidad" tabindex="2" class="form-control">
+              <option value="7">7 días</option>
+              <option value="28">28 días</option>
+              <option value="91">91 días</option>
+              <option value="182">182 días</option>
+              <option value="360">360 días</option>
+            </select>   
+          </div>  
+          <div class="form-group col-md-3">
+            <i class="fa fa-calendar-alt fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+            <label for="plazo">Período de ahorro</label>
+            <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="tiempo" placeholder="Años" min="1" step="1" tabindex="3"/>        
+          </div> 
+          <div class="form-group col-md-2">
+            <br/>
+            <button type="button" class="btn btn-primary" tabindex="5" id="calcularRendimiento"> <span class="glyphicon glyphicon-ok"></span> Calcular </button>
+          </div>
+        </div>        
+      </form>      
+    </div>
+  </div> 
+  <div id="resultadoRendimiento"></div> 
+  <div class="row">
+    <div class="col-md-12 scrollAhorro">
+        <table id="tablaRendimiento" class="table">
+          <thead id="theadTblRendimiento">         
+          </thead>
+          <tbody id="instrumentos">         
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<div id="interactivo3" class="tabcontent">
+  <!--<h4>Compara tu préstamo</h4>-->
+  <div class="row">
+    <div class="col-md-12">
+      <form id="frmCompara" autocomplete="off" >
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <i class="fa fa-money-check-alt fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+            <label for="importe">Monto del crédito</label>                                    
+            <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="importe" placeholder="$" min="1" step="1" tabindex="1"/>
+          </div>
+          <div class="form-group col-md-2">
+            <i class="fa fa-calendar-alt fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+            <label for="plazo">Plazo</label>
+            <input type="number" class="form-control" onkeypress="return validaNumericos(event)" id="plazo" placeholder="1" min="1" step="1" tabindex="2" />        
+          </div>  
+          <div class="form-group col-md-4" >              
+              <i class="fa fa-tags fa-lg" style="color:rgb(152, 152, 154 );" aria-hidden="true"></i>
+              <label>Forma de pago</label>
+              <div class="form-inline" >
+                <label class="radio inline"><input type="radio" value="Mensual" checked="checked" name="formaPago" tabindex="3"/> Mensual </label>
+                <label class="radio inline"><input type="radio" value="Quincenal" name="formaPago" tabindex="4"/> Quincenal </label>
+              </div>            
+
+          </div> 
+          <div class="form-group col-md-3">
+            <br/>
+            <button type="button" class="btn btn-primary" tabindex="5" id="calcularComparativo"> <span class="glyphicon glyphicon-ok"></span> Calcular </button>
+          </div>
+        </div>        
+      </form>
+      <!-- <p style="font-size: small;">Nota: La tasa utilizada para el cálculo del préstamo personal del ISSSTE corresponde a un préstamo de tipo ordinario</p>-->
+    </div>
+  </div> 
+  <div id="resultadoCompara"></div> 
+  <div class="row">
+    <div class="col-md-12 scrollCompara">
+        <table id="compara" class="table">
+          <thead id="theadTblCompara">              
+          </thead>
+          <tbody id="bancos">                                   
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="tblAmort" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">                
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h5 class="modal-title">Tabla de amortización</h5>
+          </div>      
+          <div class="modal-body" >
+              <div id="mmessage" align="center"></div>
+              <div class="row scrollDivCalc" id="modalContenido">
+                  <div class="col-md-12">
+                      <table id="tblDetalleAmortizacion" class="table">
+                        <thead>
+                          <tr >
+                            <th># de pago</th>
+                            <th>Pago a Capital</th>
+                            <th>Interés</th>
+                            <th id="fPagoAmortizacion">Pago</th>
+                            <th>Saldo insoluto</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tblAmortizacion"  name="tblAmortizacion">                          
+                        </tbody>
+                      </table>                        
+                  </div>
+              </div>            
+          </div>
+
+      </div>
+  </div>
+</div>
+<div id="interactivo4" class="tabcontent">
+  <!-- <div class="row">
+      <div class="col-12"> -->
+      <iframe
+            id="memorama"
+            title="Memorama educación financiera"
+            src="memorama.html"
+      >
+      </iframe>
+    <!-- </div>
+  </div> -->
+</div>

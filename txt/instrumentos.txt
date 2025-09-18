@@ -1,0 +1,22 @@
+Mercado Pago|15.00
+Nu México Financiera|13.50
+Covalto|13.00
+Banco Inmobiliario Mexicano|11.40
+CETES Directo|11.08
+Mi Banco Autofin México|10.00
+ABC CAPITAL|9.45
+Banco Multiva|8.66
+Compartamos Banco|8.00
+Bancrea|7.98
+CI Banco|7.90
+Banca Mifel|7.35
+Banjercito|4.75
+Banco del Bienestar|4.31
+Banorte|3.99
+Santander|3.86
+Citibanamex|3.86
+BanBajio|3.20
+Scotiabank|2.83
+BBVA|2.25
+Volkswagen Bank|1.50
+HSBC|1.48

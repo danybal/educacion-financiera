@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1,shrink-to-fit=no">
+        <meta name="description" content="Memorama ISSSTE">
+        <title>Memorama de educación y cultura financiera</title>
+        <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <main role="main" class="container-fluid" id="app">
+            <div class="row">
+                <div class="col-12">
+                    <p style="text-align: center;">
+                        <span class="h4">Intentos: </span>
+                        {{intentos}}/{{MAXIMOS_INTENTOS}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="h4">Aciertos:</span> {{aciertos}}
+                    </p>
+                </div>
+            </div>
+            <div v-for="(fila, indiceFila) in memorama" :key="indiceFila"
+                class="row">
+                <div :key="indiceFila+''+indiceImagen" class="col-3"
+                    v-for="(imagen, indiceImagen) in fila">
+                    <div class="mb-3">
+                        <img @click="voltear(indiceFila, indiceImagen)"
+                            :class="{'girar': imagen.mostrar} "
+                            :src="(imagen.mostrar ? imagen.ruta :
+                            NOMBRE_IMAGEN_OCULTA)" class="card-img-top img-fluid
+                            img-thumbnail">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="./assets/js/sweetalert2.all.min.js"></script>
+        <script src="./assets/js/vue.min.js"></script>
+        <script src="./assets/js/script.js"></script>
+    </body>
+
+</html>
