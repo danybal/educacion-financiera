@@ -7,21 +7,21 @@ new Vue({
     data: () => ({
         // La ruta de las imágenes. Puede ser relativa o absoluta
         imagenes: [
-            {ruta: "./img/alcancia.webp",titulo: "1",descripcion:"A"},
-            {ruta: "./img/banco.webp",titulo:"2",descripcion:"B"},
-            {ruta: "./img/billete.webp",titulo:"3",descripcion:"C"},
+            {ruta: "./img/alcancia.webp",titulo: "Ahorro",descripcion:"Para comenzar a ahorrar de manera efectiva, es fundamental conocer tus ingresos y gastos mensuales"},
+            {ruta: "./img/banco.webp",titulo:"Cuenta bancaria",descripcion:"En la medida de tus posibilidades procura contar con un fondo para emergencias que cubra al menos tres meses de gasto familiar"},
+            {ruta: "./img/billete.webp",titulo:"Salario",descripcion:"Guarda siempre un porcentaje de lo que ganes, pudiendo ser el 10% o una cantidad fija hasta cumplir con la meta de ahorro"},
             //{ruta: "./img/boveda.webp",titulo:"",descripcion:""},
-            {ruta: "./img/calculadora.webp",titulo:"4",descripcion:"D"},
+            {ruta: "./img/calculadora.webp",titulo:"Presupuesto",descripcion:"Realiza un presupuesto mensual realista, ya que este te ayudara a establecer un límite en tus gastos y a tener mejor organizadas tus finanzas."},
             //{ruta: "./img/control.webp",titulo:"",descripcion:""},
-            {ruta: "./img/dinero.webp",titulo:"5",descripcion:"E"},
-            {ruta: "./img/educacion.webp",titulo:"6",descripcion:"F"},
+            {ruta: "./img/dinero.webp",titulo:"Gastos",descripcion:"Identifica gastos innecesarios, revisando tus suscripciones, servicios y gastos diarios para determinar que puedes cancelar o recortar"},
+            {ruta: "./img/educacion.webp",titulo:"Educación financiera",descripcion:"La educación financiera es fundamental para tomar decisiones informadas sobre el dinero, evitar deudas innecesarias y planificar un futuro financiero estable"},
             // {ruta: "./img/equilibrio.webp",titulo:"",descripcion:""},
             // {ruta: "./img/estudio.webp",titulo:"",descripcion:""},
             // {ruta: "./img/graficas.png",titulo:"",descripcion:""},
             // {ruta: "./img/inversion.webp",titulo:"",descripcion:""},
-            {ruta: "./img/rendimiento.webp",titulo:"7",descripcion:"G"},
+            {ruta: "./img/rendimiento.webp",titulo:"Rendimientos",descripcion:" Investiga los productos financieros que te brindan una tasa de interés favorable, como cuentas de ahorro de alto rendimiento o depósitos a plazo"},
             // {ruta: "./img/tarjeta.webp",titulo:"",descripcion:""},
-            {ruta: "./img/velas.png",titulo:"8",descripcion:"H"},
+            {ruta: "./img/velas.png",titulo:"Inversión",descripcion:"Una de las opciones más interesantes para invertir y ganar dinero pueden ser los fondos de inversión, que nos permitirán acceder a activos y mercados que no siempre están a nuestro alcance"},
         ],
         memorama: [],
         // Útiles para saber cuál fue la carta anteriormente seleccionada
@@ -136,13 +136,13 @@ new Vue({
             // Se basta en ultimaImagenSeleccionada
             this.memorama[indiceFila][indiceImagen].mostrar = true;
             if (imagenSeleccionada.ruta === ultimaImagenSeleccionada.ruta) {
+                //Muestra el tip financiero
+                this.mostrarTip(this.memorama[indiceFila][indiceImagen]);
                 this.aciertos++;
                 this.memorama[indiceFila][indiceImagen].acertada = true;
                 this.memorama[this.ultimasCoordenadas.indiceFila][this.ultimasCoordenadas.indiceImagen].acertada = true;
                 this.ultimasCoordenadas.indiceFila = null;
                 this.ultimasCoordenadas.indiceImagen = null;
-                //Muestra el tip financiero
-                this.mostrarTip(this.memorama[indiceFila][indiceImagen]);
                 // Cada que acierta comprobamos si ha ganado
                 if (this.haGanado()) {
                     this.indicarVictoria();
