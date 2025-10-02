@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanzas Defensivas - ISSSTE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: rgb(30, 35, 40); /* Color de fondo mejorado */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            color: rgb(231, 210, 149);
+        }
+        
+        #game-container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: rgb(30, 35, 40); /* Color de fondo mejorado */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 2px solid rgb(152, 152, 154);
+        }
+        
+        header {
+            background: rgb(156, 35, 72);
+            color: rgb(23, 27, 30);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 3px solid rgb(231, 210, 149);
+        }
+        
+        .titles h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: rgb(231, 210, 149);
+        }
+        
+        .titles p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: rgb(231, 210, 149);
+        }
+        
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
+            padding: 10px 20px;
+            background: rgba(23, 27, 30, 0.3);
+            color: rgb(231, 210, 149);
+            border: 2px solid rgb(231, 210, 149);
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .header-btn:hover {
+            background: rgba(231, 210, 149, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        #controls {
+            padding: 5px 20px;
+            background-color: rgb(152, 152, 154);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 2px solid rgb(166, 128, 45);
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: rgb(166, 128, 45);
+            color: rgb(23, 27, 30);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 10px rgba(0, 0, 0, 0.3);
+            background: rgb(231, 210, 149);
+        }
+        
+        #start-btn {
+            background: rgb(30, 91, 79);
+            color: rgb(231, 210, 149);
+        }
+        
+        #reset-btn {
+            background: rgb(98, 19, 51);
+            color: rgb(231, 210, 149);
+        }
+        
+        #difficulty-selector {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 2px solid rgb(166, 128, 45);
+            font-size: 1rem;
+            background: rgb(30, 35, 40);
+            color: rgb(231, 210, 149);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-weight: bold;
+            min-width: 200px;
+        }
+        
+        #game-info {
+            display: flex;
+            justify-content: space-around;
+            padding: 3px;
+            background-color: rgb(30, 35, 40);
+            color: rgb(231, 210, 149);
+            font-size: 1.2rem;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 2px solid rgb(152, 152, 154);
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #game-board {
+            position: relative;
+            height: 500px;
+            background: rgb(30, 35, 40);
+            overflow: hidden;
+            cursor: grab;
+            border: 3px solid rgb(152, 152, 154);
+        }
+        
+        .bad-practice {
+            position: absolute;
+            width: 160px;
+            min-height: 70px;
+            background: rgb(98, 19, 51);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: rgb(231, 210, 149);
+            font-weight: bold;
+            text-align: center;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            user-select: none;
+            transition: transform 0.2s;
+            font-size: 13px;
+            border: 2px solid rgb(152, 152, 154);
+            z-index: 5;
+        }
+        
+        .bad-practice:hover {
+            transform: scale(1.05);
+        }
+        
+        .good-practice {
+            width: 160px;
+            min-height: 70px;
+            background: rgb(30, 91, 79);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: rgb(231, 210, 149);
+            font-weight: bold;
+            text-align: center;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            user-select: none;
+            transition: transform 0.2s;
+            cursor: pointer;
+            font-size: 13px;
+            z-index: 10;
+            border: 2px solid rgb(152, 152, 154);
+            position: relative;
+        }
+        
+        .good-practice:hover {
+            transform: scale(1.05);
+        }
+        
+        .practice-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            color: rgb(231, 210, 149);
+        }
+        
+        .practice-text {
+            font-size: 12px;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+        
+        .practice-points {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: rgb(166, 128, 45);
+            color: rgb(23, 27, 30);
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        #good-practices-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 5px;
+            background-color: rgb(30, 35, 40);
+            max-height: 180px;
+            overflow-y: auto;
+            border-top: 2px solid rgb(152, 152, 154);
+        }
+        
+        #timer-container {
+            width: 100%;
+            height: 12px;
+            background-color: rgb(152, 152, 154);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        #timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, rgb(30, 91, 79), rgb(166, 128, 45), rgb(98, 19, 51));
+            transition: width 1s linear;
+        }
+        
+        .match-feedback {
+            position: absolute;
+            font-size: 26px;
+            font-weight: bold;
+            color: rgb(30, 91, 79);
+            animation: fadeUp 1s forwards;
+            z-index: 20;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .error-feedback {
+            position: absolute;
+            font-size: 26px;
+            font-weight: bold;
+            color: rgb(98, 19, 51);
+            animation: fadeUp 1s forwards;
+            z-index: 20;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes fadeUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-50px); }
+        }
+        
+        #pairs-help {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgb(166, 128, 45);
+            color: rgb(23, 27, 30);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 22px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+            border: 2px solid rgb(231, 210, 149);
+        }
+        
+        #pairs-help:hover {
+            background: rgb(231, 210, 149);
+            transform: scale(1.1);
+        }
+        
+        .modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(30, 35, 40);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            border: 2px solid rgb(166, 128, 45);
+            color: rgb(231, 210, 149);
+        }
+        
+        .modal h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: rgb(231, 210, 149);
+            font-size: 1.8rem;
+            border-bottom: 2px solid rgb(166, 128, 45);
+            padding-bottom: 10px;
+        }
+        
+        .modal-content {
+            line-height: 1.6;
+        }
+        
+        .modal-content p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .modal-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .close-modal {
+            display: block;
+            margin: 20px auto 0;
+            padding: 12px 25px;
+            background: rgb(166, 128, 45);
+            color: rgb(23, 27, 30);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .close-modal:hover {
+            background: rgb(231, 210, 149);
+        }
+        
+        .pair-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+            gap: 10px;
+            background: rgba(152, 152, 154, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s;
+            border: 1px solid rgb(152, 152, 154);
+        }
+        
+        .pair-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pair-bad {
+            background: rgb(98, 19, 51);
+            color: rgb(231, 210, 149);
+            padding: 12px;
+            border-radius: 8px;
+            flex: 1;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .pair-good {
+            background: rgb(30, 91, 79);
+            color: rgb(231, 210, 149);
+            padding: 12px;
+            border-radius: 8px;
+            flex: 1;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .pair-arrow {
+            font-weight: bold;
+            color: rgb(166, 128, 45);
+            font-size: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .pair-points {
+            background: rgb(166, 128, 45);
+            color: rgb(23, 27, 30);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(30, 35, 40);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+            width: 85%;
+            max-width: 450px;
+            border: 3px solid rgb(166, 128, 45);
+            color: rgb(231, 210, 149);
+        }
+        
+        #game-over h2 {
+            color: rgb(166, 128, 45);
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        #final-score {
+            font-size: 2rem;
+            color: rgb(231, 210, 149);
+            margin-bottom: 15px;
+        }
+        
+        #final-message {
+            font-size: 1.4rem;
+            color: rgb(166, 128, 45);
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .life {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(98, 19, 51);
+            border-radius: 50%;
+            margin: 0 5px;
+            border: 2px solid rgb(231, 210, 149);
+        }
+        
+        /* Modo experto - sin iconos */
+        .expert-mode .bad-practice,
+        .expert-mode .good-practice {
+            padding: 10px 6px;
+        }
+        
+        .expert-mode .practice-icon {
+            display: none;
+        }
+        
+        .expert-mode .practice-text {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        /* Estilos para el contenedor de buenas prácticas */
+        .easy-mode #good-practices-container {
+            max-height: 100px;
+        }
+        
+        .hard-mode #good-practices-container,
+        .expert-mode #good-practices-container {
+            max-height: 180px;
+        }
+        
+        /* Instrucciones visuales */
+        #visual-instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(30, 35, 40, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 90;
+            border: 2px solid rgb(166, 128, 45);
+            color: rgb(231, 210, 149);
+            max-width: 90%;
+            display: none;
+        }
+        
+        #visual-instructions p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        #visual-instructions.hidden {
+            display: none;
+        }
+        
+        #visual-instructions.visible {
+            display: block;
+        }
+        
+        .dragging-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(166, 128, 45, 0.8);
+            color: rgb(23, 27, 30);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 90;
+            animation: pulse 2s infinite;
+            display: none;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .dragging-hint.visible {
+            display: block;
+        }
+        
+        /* Efecto de transición para mover tarjetas */
+        .good-practice.moving {
+            transition: transform 0.3s ease;
+        }
+        
+        @media (max-width: 1200px) {
+            .bad-practice, .good-practice {
+                width: 150px;
+                min-height: 65px;
+            }
+            
+            .practice-text {
+                font-size: 11px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-controls {
+                position: static;
+                justify-content: center;
+                margin-top: 15px;
+            }
+            
+            .pair-item {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .pair-bad, .pair-good {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .pair-arrow {
+                transform: rotate(90deg);
+                margin: 5px 0;
+            }
+            
+            #game-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            #controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            button, #difficulty-selector {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .bad-practice, .good-practice {
+                width: 140px;
+                min-height: 60px;
+            }
+            
+            .practice-text {
+                font-size: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .bad-practice, .good-practice {
+                width: 130px;
+                min-height: 55px;
+            }
+            
+            .titles h1 {
+                font-size: 2rem;
+            }
+            
+            .titles p {
+                font-size: 1rem;
+            }
+            
+            #final-message {
+                font-size: 1.2rem;
+            }
+            
+            .header-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            #good-practices-container {
+                max-height: 150px;
+            }
+            
+            .easy-mode #good-practices-container {
+                max-height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- <header>
+            <div class="titles">
+                <h1>Finanzas Defensivas</h1>
+                <p>¡Protege tus finanzas de las malas prácticas!</p>
+            </div>
+            <div class="header-controls">
+                <button class="header-btn" id="instructions-btn">
+                    <i class="fas fa-question-circle"></i> Instrucciones
+                </button>
+            </div>
+        </header> -->
+        
+        <div id="controls">
+            <button class="header-btn" id="instructions-btn">
+                <i class="fas fa-question-circle"></i> Instrucciones
+            </button>
+            <button id="start-btn">Comenzar</button>
+            <button id="reset-btn">Reiniciar</button>
+            <select id="difficulty-selector">
+                <option value="easy">Modo Fácil (5 prácticas)</option>
+                <option value="hard">Modo Difícil (8 prácticas)</option>
+                <option value="expert">Modo Experto (10 prácticas sin iconos)</option>
+            </select>
+        </div>
+        
+        <div id="game-info">
+            <div class="info-item">Puntuación: <span id="score">0</span></div>
+            <div class="info-item">Vidas: <span id="lives">3</span></div>
+            <div class="info-item">Nivel: <span id="level">1</span></div>
+            <div class="info-item">Modo: <span id="mode">Fácil</span></div>
+            <div class="info-item">Tiempo: <span id="time">60</span>s</div>
+        </div>
+        
+        <div id="game-board">
+            <div id="pairs-help">?</div>
+            
+            <!-- Instrucciones visuales -->
+            <div id="visual-instructions">
+                <p><strong>¿Cómo jugar?</strong></p>
+                <p>Arrastra las <span style="color: rgb(30, 91, 79)">buenas prácticas</span> de abajo hacia las <span style="color: rgb(98, 19, 51)">malas prácticas</span> que caen desde arriba.</p>
+                <p>Cada pareja tiene el mismo icono para ayudarte a identificarlas.</p>
+                <p>¡Evita que las malas prácticas lleguen al fondo!</p>
+            </div>
+            
+            <div id="dragging-hint" class="dragging-hint">
+                <i class="fas fa-hand-pointer"></i> Arrastra las buenas prácticas hacia las malas
+            </div>
+            
+            <div id="game-over">
+                <h2>¡Juego Terminado!</h2>
+                <p>Tu puntuación final: <span id="final-score">0</span></p>
+                <p id="final-message">Ahorrar es complicado</p>
+                <button id="restart-btn">Jugar otra vez</button>
+            </div>
+            
+            <div id="pairs-modal" class="modal">
+                <h3>Parejas de Prácticas Financieras</h3>
+                <div id="pairs-list"></div>
+                <button class="close-modal">Cerrar</button>
+            </div>
+            
+            <div id="instructions-modal" class="modal">
+                <h3>Instrucciones del Juego</h3>
+                <div class="modal-content">
+                    <p><strong>¡Bienvenido a Finanzas Defensivas!</strong></p>
+                    <p>El objetivo del juego es proteger tus finanzas arrastrando las buenas prácticas sobre las malas prácticas correspondientes.</p>
+                    
+                    <p><strong>Cómo jugar:</strong></p>
+                    <ul>
+                        <li>Haz clic en "Comenzar" para iniciar el juego</li>
+                        <li>Las malas prácticas (tarjetas rojas) caerán desde la parte superior</li>
+                        <li>Arrastra las buenas prácticas (tarjetas verdes) sobre las malas prácticas CORRESPONDIENTES</li>
+                        <li>Cada pareja tiene el mismo icono para ayudarte a identificarlas</li>
+                        <li>Si una mala práctica llega al fondo, perderás una vida</li>
+                        <li>¡Consigue la mayor puntuación posible antes de que se acabe el tiempo!</li>
+                    </ul>
+                    
+                    <p><strong>Controles:</strong></p>
+                    <ul>
+                        <li><strong>Comenzar/Pausar:</strong> Inicia o pausa el juego</li>
+                        <li><strong>Reiniciar:</strong> Vuelve a empezar el juego</li>
+                        <li><strong>Selector de dificultad:</strong> Elige entre Fácil, Difícil y Experto</li>
+                        <li><strong>Botón ?:</strong> Muestra las parejas correctas</li>
+                    </ul>
+                    
+                    <p><strong>Modos de juego:</strong></p>
+                    <ul>
+                        <li><strong>Fácil:</strong> 5 prácticas con iconos, velocidad lenta</li>
+                        <li><strong>Difícil:</strong> 8 prácticas con iconos, velocidad media</li>
+                        <li><strong>Experto:</strong> 10 prácticas sin iconos, velocidad rápida</li>
+                    </ul>
+                    
+                    <p><strong>Puntuaciones:</strong></p>
+                    <p>Cada práctica tiene una puntuación diferente según su importancia. Las prácticas más importantes otorgan más puntos.</p>
+                </div>
+                <button class="close-modal">Cerrar</button>
+            </div>
+        </div>
+        
+        <div id="good-practices-container"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const gameBoard = document.getElementById('game-board');
+            const scoreElement = document.getElementById('score');
+            const livesElement = document.getElementById('lives');
+            const levelElement = document.getElementById('level');
+            const modeElement = document.getElementById('mode');
+            const timeElement = document.getElementById('time');
+            const startBtn = document.getElementById('start-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const difficultySelector = document.getElementById('difficulty-selector');
+            const gameOverScreen = document.getElementById('game-over');
+            const finalScoreElement = document.getElementById('final-score');
+            const finalMessage = document.getElementById('final-message');
+            const restartBtn = document.getElementById('restart-btn');
+            const goodPracticesContainer = document.getElementById('good-practices-container');
+            const pairsHelp = document.getElementById('pairs-help');
+            const pairsModal = document.getElementById('pairs-modal');
+            const pairsList = document.getElementById('pairs-list');
+            const instructionsBtn = document.getElementById('instructions-btn');
+            const instructionsModal = document.getElementById('instructions-modal');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            const visualInstructions = document.getElementById('visual-instructions');
+            const draggingHint = document.getElementById('dragging-hint');
+            
+            // Variables del juego
+            let score = 0;
+            let lives = 3;
+            let level = 1;
+            let baseSpeed = 10;
+            let gameMode = 'easy'; // easy, hard, expert
+            let gameInterval;
+            let practiceInterval;
+            let timeInterval;
+            let isGameRunning = false;
+            let badPractices = [];
+            let goodPractices = [];
+            let activeGoodPractice = null;
+            let offsetX, offsetY;
+            let gameTime = 60;
+            let speedIncreaseTimer = 0;
+            let isDragging = false; // Nueva variable para controlar el arrastre
+            
+            // Mapeo de parejas para modo FÁCIL (5 prácticas) con diferentes puntuaciones
+            const practicePairsEasy = {
+                "Gastar por impulso": {text: "Crear y seguir un presupuesto", icon: "fa-solid fa-money-bill-wave", points: 40},
+                "Endeudarse": {text: "Ahorrar consistentemente", icon: "fa-solid fa-piggy-bank", points: 35},
+                "No estar preparado para una emergencia": {text: "Establecer un fondo de emergencia", icon: "fa-solid fa-shield-alt", points: 30},
+                "Ignorar deudas": {text: "Evitar deudas innecesarias", icon: "fa-solid fa-credit-card", points: 25},
+                "Comprar impulsivamente": {text: "Comparar antes de comprar", icon: "fa-solid fa-tags", points: 20}
+            };
+            
+            // Mapeo de parejas para modo DIFÍCIL (8 prácticas) con diferentes puntuaciones
+            const practicePairsHard = {
+                "Gastar por impulso": {text: "Crear y seguir un presupuesto", icon: "fa-solid fa-money-bill-wave", points: 40},
+                "Endeudarse": {text: "Ahorrar consistentemente", icon: "fa-solid fa-piggy-bank", points: 35},
+                "No estar preparado para una emergencia": {text: "Establecer un fondo de emergencia", icon: "fa-solid fa-shield-alt", points: 30},
+                "Ignorar deudas": {text: "Evitar deudas innecesarias", icon: "fa-solid fa-credit-card", points: 25},
+                "Comprar impulsivamente": {text: "Comparar antes de comprar", icon: "fa-solid fa-tags", points: 20},
+                "Usar crédito para gastos cotidianos": {text: "Evitar deudas innecesarias", icon: "fa-solid fa-file-invoice-dollar", points: 25},
+                "No invertir ni planificar para el retiro": {text: "Planificar para la jubilación", icon: "fa-solid fa-chart-line", points: 40},
+                "No tener un objetivo": {text: "Establecer metas financieras", icon: "fa-solid fa-bullseye", points: 20}
+            };
+            
+            // Mapeo de parejas para modo EXPERTO (10 prácticas, sin iconos) con diferentes puntuaciones
+            const practicePairsExpert = {
+                "Gastar por impulso": {text: "Crear y seguir un presupuesto", icon: "", points: 40},
+                "Endeudarse": {text: "Ahorrar consistentemente", icon: "", points: 35},
+                "No estar preparado para una emergencia": {text: "Establecer un fondo de emergencia", icon: "", points: 30},
+                "Ignorar deudas": {text: "Evitar deudas innecesarias", icon: "", points: 25},
+                "Comprar impulsivamente": {text: "Comparar antes de comprar", icon: "", points: 20},
+                "Usar crédito para gastos cotidianos": {text: "Evitar deudas innecesarias", icon: "", points: 25},
+                "No invertir ni planificar para el retiro": {text: "Planificar para la jubilación", icon: "", points: 40},
+                "No tener un objetivo": {text: "Establecer metas financieras", icon: "", points: 20},
+                "Gastar todo": {text: "Invertir para el futuro", icon: "", points: 50},
+                "No comparar precios": {text: "Educarse financieramente", icon: "", points: 30}
+            };
+            
+            // Inicializar el juego
+            function initGame() {
+                clearIntervals();
+                resetGame();
+                createGoodPractices();
+                updateUI();
+                updatePairsModal();
+                showVisualInstructions();
+            }
+            
+            // Mostrar instrucciones visuales
+            function showVisualInstructions() {
+                visualInstructions.classList.add('visible');
+                setTimeout(() => {
+                    visualInstructions.classList.remove('visible');
+                }, 5000); // Mostrar por 5 segundos
+            }
+            
+            // Actualizar el modal de parejas
+            function updatePairsModal() {
+                pairsList.innerHTML = '';
+                let currentPairs;
+                
+                if (gameMode === 'easy') {
+                    currentPairs = practicePairsEasy;
+                } else if (gameMode === 'hard') {
+                    currentPairs = practicePairsHard;
+                } else {
+                    currentPairs = practicePairsExpert;
+                }
+                
+                Object.entries(currentPairs).forEach(([bad, goodData]) => {
+                    const pairItem = document.createElement('div');
+                    pairItem.className = 'pair-item';
+                    
+                    const badElement = document.createElement('div');
+                    badElement.className = 'pair-bad';
+                    badElement.innerHTML = (gameMode === 'expert') ? bad : `<i class="${goodData.icon}"></i> ${bad}`;
+                    
+                    const arrow = document.createElement('div');
+                    arrow.className = 'pair-arrow';
+                    arrow.textContent = '→';
+                    
+                    const goodElement = document.createElement('div');
+                    goodElement.className = 'pair-good';
+                    goodElement.innerHTML = (gameMode === 'expert') ? goodData.text : `<i class="${goodData.icon}"></i> ${goodData.text}`;
+                    
+                    const pointsElement = document.createElement('div');
+                    pointsElement.className = 'pair-points';
+                    pointsElement.textContent = `+${goodData.points}`;
+                    
+                    pairItem.appendChild(badElement);
+                    pairItem.appendChild(arrow);
+                    pairItem.appendChild(goodElement);
+                    pairItem.appendChild(pointsElement);
+                    
+                    pairsList.appendChild(pairItem);
+                });
+            }
+            
+            // Crear buenas prácticas
+            function createGoodPractices() {
+                goodPracticesContainer.innerHTML = '';
+                goodPractices = [];
+                
+                // Aplicar clase de modo según corresponda
+                gameBoard.classList.remove('easy-mode', 'hard-mode', 'expert-mode');
+                goodPracticesContainer.classList.remove('easy-mode', 'hard-mode', 'expert-mode');
+                
+                if (gameMode === 'easy') {
+                    gameBoard.classList.add('easy-mode');
+                    goodPracticesContainer.classList.add('easy-mode');
+                } else if (gameMode === 'hard') {
+                    gameBoard.classList.add('hard-mode');
+                    goodPracticesContainer.classList.add('hard-mode');
+                } else {
+                    gameBoard.classList.add('expert-mode');
+                    goodPracticesContainer.classList.add('expert-mode');
+                }
+                
+                let practices;
+                
+                if (gameMode === 'easy') {
+                    practices = practicePairsEasy;
+                } else if (gameMode === 'hard') {
+                    practices = practicePairsHard;
+                } else {
+                    practices = practicePairsExpert;
+                }
+                
+                Object.entries(practices).forEach(([badPractice, goodData]) => {
+                    const practice = document.createElement('div');
+                    practice.className = 'good-practice';
+                    
+                    // Crear elemento de puntos
+                    const pointsElement = document.createElement('div');
+                    pointsElement.className = 'practice-points';
+                    pointsElement.textContent = goodData.points;
+                    
+                    if (gameMode === 'expert') {
+                        practice.innerHTML = `
+                            <div class="practice-text">${goodData.text}</div>
+                        `;
+                    } else {
+                        practice.innerHTML = `
+                            <div class="practice-icon">
+                                <i class="${goodData.icon}"></i>
+                            </div>
+                            <div class="practice-text">${goodData.text}</div>
+                        `;
+                    }
+                    
+                    // Agregar puntos a la práctica
+                    practice.appendChild(pointsElement);
+                    
+                    practice.dataset.practice = goodData.text;
+                    practice.dataset.pairId = badPractice;
+                    
+                    practice.addEventListener('mousedown', startDrag);
+                    practice.addEventListener('touchstart', startDragTouch);
+                    
+                    goodPracticesContainer.appendChild(practice);
+                    
+                    goodPractices.push({
+                        element: practice,
+                        text: goodData.text,
+                        pairId: badPractice,
+                        icon: goodData.icon,
+                        points: goodData.points
+                    });
+                });
+            }
+            
+            // Iniciar el juego
+            function startGame() {
+                if (isGameRunning) return;
+                
+                isGameRunning = true;
+                startBtn.textContent = 'Pausar';
+                gameTime = 60;
+                timeElement.textContent = gameTime;
+                
+                if (gameMode === 'easy') {
+                    baseSpeed = 10;
+                } else if (gameMode === 'hard') {
+                    baseSpeed = 12;
+                } else {
+                    baseSpeed = 14;
+                }
+                
+                speedIncreaseTimer = 0;
+                
+                let intervalTime;
+                if (gameMode === 'easy') {
+                    intervalTime = 2000;
+                } else if (gameMode === 'hard') {
+                    intervalTime = 1500;
+                } else {
+                    intervalTime = 1200;
+                }
+                
+                practiceInterval = setInterval(createBadPractice, intervalTime);
+                gameInterval = setInterval(updateGame, 1000 / 60);
+                timeInterval = setInterval(updateTime, 1000);
+                
+                // Mostrar pista de arrastre
+                draggingHint.classList.add('visible');
+                setTimeout(() => {
+                    draggingHint.classList.remove('visible');
+                }, 3000);
+            }
+            
+            // Actualizar el temporizador
+            function updateTime() {
+                gameTime--;
+                timeElement.textContent = gameTime;
+                
+                speedIncreaseTimer++;
+                if (speedIncreaseTimer >= 5) {
+                    if (gameMode === 'easy') {
+                        baseSpeed += 1;
+                    } else if (gameMode === 'hard') {
+                        baseSpeed += 1.5;
+                    } else {
+                        baseSpeed += 2;
+                    }
+                    speedIncreaseTimer = 0;
+                }
+                
+                if (gameTime <= 0) {
+                    gameOver();
+                }
+            }
+            
+            // Pausar el juego
+            function pauseGame() {
+                isGameRunning = false;
+                startBtn.textContent = 'Continuar';
+                clearIntervals();
+            }
+            
+            // Reiniciar el juego
+            function resetGame() {
+                clearIntervals();
+                
+                badPractices.forEach(practice => {
+                    if (practice.element && practice.element.parentNode) {
+                        practice.element.parentNode.removeChild(practice.element);
+                    }
+                });
+                
+                badPractices = [];
+                score = 0;
+                lives = 3;
+                level = 1;
+                
+                if (gameMode === 'easy') {
+                    baseSpeed = 10;
+                } else if (gameMode === 'hard') {
+                    baseSpeed = 12;
+                } else {
+                    baseSpeed = 14;
+                }
+                
+                gameTime = 60;
+                
+                gameOverScreen.style.display = 'none';
+                pairsModal.style.display = 'none';
+                instructionsModal.style.display = 'none';
+                draggingHint.classList.remove('visible');
+                
+                updateUI();
+                isGameRunning = false;
+                startBtn.textContent = 'Comenzar';
+                timeElement.textContent = gameTime;
+                
+                // Mostrar instrucciones visuales al reiniciar
+                showVisualInstructions();
+            }
+            
+            // Cambiar modo de dificultad
+            function changeDifficulty() {
+                gameMode = difficultySelector.value;
+                
+                if (gameMode === 'easy') {
+                    modeElement.textContent = 'Fácil';
+                } else if (gameMode === 'hard') {
+                    modeElement.textContent = 'Difícil';
+                } else {
+                    modeElement.textContent = 'Experto';
+                }
+                
+                createGoodPractices();
+                updatePairsModal();
+                resetGame();
+            }
+            
+            // Crear una mala práctica
+            function createBadPractice() {
+                if (!isGameRunning) return;
+                
+                let practices;
+                if (gameMode === 'easy') {
+                    practices = practicePairsEasy;
+                } else if (gameMode === 'hard') {
+                    practices = practicePairsHard;
+                } else {
+                    practices = practicePairsExpert;
+                }
+                
+                const practiceKeys = Object.keys(practices);
+                const text = practiceKeys[Math.floor(Math.random() * practiceKeys.length)];
+                const goodData = practices[text];
+                
+                let x, y, overlapping;
+                let attempts = 0;
+                
+                do {
+                    overlapping = false;
+                    x = Math.random() * (gameBoard.offsetWidth - 160);
+                    y = -70;
+                    
+                    for (const practice of badPractices) {
+                        const rect1 = {x: x, y: y, width: 160, height: 70};
+                        const rect2 = {x: practice.x, y: practice.y, width: 160, height: 70};
+                        
+                        if (checkOverlap(rect1, rect2)) {
+                            overlapping = true;
+                            break;
+                        }
+                    }
+                    
+                    attempts++;
+                } while (overlapping && attempts < 20);
+                
+                if (overlapping) return;
+                
+                const practice = document.createElement('div');
+                practice.className = 'bad-practice';
+                
+                if (gameMode === 'expert') {
+                    practice.innerHTML = `
+                        <div class="practice-text">${text}</div>
+                    `;
+                } else {
+                    practice.innerHTML = `
+                        <div class="practice-icon">
+                            <i class="${goodData.icon}"></i>
+                        </div>
+                        <div class="practice-text">${text}</div>
+                    `;
+                }
+                
+                practice.style.left = `${x}px`;
+                practice.style.top = `${y}px`;
+                
+                gameBoard.appendChild(practice);
+                
+                badPractices.push({
+                    element: practice,
+                    text: text,
+                    x: x,
+                    y: y,
+                    width: 160,
+                    height: 70,
+                    pairId: text,
+                    icon: goodData.icon,
+                    points: goodData.points
+                });
+            }
+            
+            // Verificar superposición
+            function checkOverlap(rect1, rect2) {
+                return !(rect1.x + rect1.width < rect2.x || 
+                         rect1.x > rect2.x + rect2.width || 
+                         rect1.y + rect1.height < rect2.y || 
+                         rect1.y > rect2.y + rect2.height);
+            }
+            
+            // Actualizar el estado del juego
+            function updateGame() {
+                if (!isGameRunning) return;
+                
+                let speedMultiplier;
+                if (gameMode === 'easy') {
+                    speedMultiplier = 1.5;
+                } else if (gameMode === 'hard') {
+                    speedMultiplier = 2;
+                } else {
+                    speedMultiplier = 2.5;
+                }
+                
+                const currentSpeed = baseSpeed + (level * speedMultiplier);
+                
+                // Mover malas prácticas
+                for (let i = badPractices.length - 1; i >= 0; i--) {
+                    const practice = badPractices[i];
+                    practice.y += currentSpeed / 60;
+                    practice.element.style.top = `${practice.y}px`;
+                    
+                    if (practice.y > gameBoard.offsetHeight - practice.height) {
+                        practice.element.parentNode.removeChild(practice.element);
+                        badPractices.splice(i, 1);
+                        loseLife();
+                    }
+                }
+                
+                // Verificar colisiones solo si estamos arrastrando
+                if (isDragging && activeGoodPractice) {
+                    const activeRect = activeGoodPractice.element.getBoundingClientRect();
+                    
+                    for (let i = badPractices.length - 1; i >= 0; i--) {
+                        const badPractice = badPractices[i];
+                        const badRect = badPractice.element.getBoundingClientRect();
+                        
+                        if (!(activeRect.right < badRect.left || 
+                              activeRect.left > badRect.right || 
+                              activeRect.bottom < badRect.top || 
+                              activeRect.top > badRect.bottom)) {
+                            
+                            if (badPractice.pairId === activeGoodPractice.pairId) {
+                                badPractice.element.parentNode.removeChild(badPractice.element);
+                                badPractices.splice(i, 1);
+                                
+                                // Sumar puntos específicos de la práctica
+                                const pointsEarned = activeGoodPractice.points;
+                                score += pointsEarned;
+                                
+                                showMatchFeedback(badRect.left + badRect.width/2, badRect.top + badRect.height/2, pointsEarned);
+                                
+                                if (score % 100 === 0) {
+                                    levelUp();
+                                }
+                                
+                                updateUI();
+                            } else {
+                                showErrorFeedback(badRect.left + badRect.width/2, badRect.top + badRect.height/2);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Mostrar feedback
+            function showMatchFeedback(x, y, points) {
+                const feedback = document.createElement('div');
+                feedback.className = 'match-feedback';
+                feedback.textContent = `¡Correcto! +${points}`;
+                feedback.style.left = `${x}px`;
+                feedback.style.top = `${y}px`;
+                gameBoard.appendChild(feedback);
+                
+                setTimeout(() => feedback.remove(), 1000);
+            }
+            
+            function showErrorFeedback(x, y) {
+                const feedback = document.createElement('div');
+                feedback.className = 'error-feedback';
+                feedback.textContent = 'X';
+                feedback.style.left = `${x}px`;
+                feedback.style.top = `${y}px`;
+                gameBoard.appendChild(feedback);
+                
+                setTimeout(() => feedback.remove(), 1000);
+            }
+            
+            // Incrementar nivel
+            function levelUp() {
+                level++;
+                updateUI();
+            }
+            
+            // Perder una vida
+            function loseLife() {
+                lives--;
+                if (lives <= 0) gameOver();
+                updateUI();
+            }
+            
+            // Game over
+            function gameOver() {
+                pauseGame();
+                finalScoreElement.textContent = score;
+                
+                if (score < 100) {
+                    finalMessage.textContent = "¡Sigue practicando!";
+                } else if (score < 200) {
+                    finalMessage.textContent = "¡Buen trabajo!";
+                } else {
+                    finalMessage.textContent = "¡Eres un experto en finanzas!";
+                }
+                
+                gameOverScreen.style.display = 'block';
+            }
+            
+            // Actualizar UI
+            function updateUI() {
+                scoreElement.textContent = score;
+                livesElement.textContent = lives;
+                levelElement.textContent = level;
+            }
+            
+            // Limpiar intervalos
+            function clearIntervals() {
+                clearInterval(gameInterval);
+                clearInterval(practiceInterval);
+                clearInterval(timeInterval);
+            }
+            
+            // Funciones de arrastre - MODIFICADAS PARA MODOS DIFÍCIL Y EXPERTO
+            function startDrag(e) {
+                activeGoodPractice = goodPractices.find(p => p.element === e.target.closest('.good-practice'));
+                if (!activeGoodPractice) return;
+                
+                isDragging = true;
+                offsetX = e.clientX - activeGoodPractice.element.getBoundingClientRect().left;
+                offsetY = e.clientY - activeGoodPractice.element.getBoundingClientRect().top;
+                
+                // Guardar la posición original
+                const originalRect = activeGoodPractice.element.getBoundingClientRect();
+                activeGoodPractice.originalPosition = {
+                    left: originalRect.left,
+                    top: originalRect.top
+                };
+                
+                // Aplicar estilos de arrastre sin cambiar el padre
+                activeGoodPractice.element.style.position = 'fixed';
+                activeGoodPractice.element.style.zIndex = '1000';
+                activeGoodPractice.element.style.pointerEvents = 'none'; // Evitar interferencias
+                
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', stopDrag);
+                e.preventDefault();
+            }
+            
+            function startDragTouch(e) {
+                activeGoodPractice = goodPractices.find(p => p.element === e.target.closest('.good-practice'));
+                if (!activeGoodPractice) return;
+                
+                isDragging = true;
+                const touch = e.touches[0];
+                offsetX = touch.clientX - activeGoodPractice.element.getBoundingClientRect().left;
+                offsetY = touch.clientY - activeGoodPractice.element.getBoundingClientRect().top;
+                
+                // Guardar la posición original
+                const originalRect = activeGoodPractice.element.getBoundingClientRect();
+                activeGoodPractice.originalPosition = {
+                    left: originalRect.left,
+                    top: originalRect.top
+                };
+                
+                // Aplicar estilos de arrastre sin cambiar el padre
+                activeGoodPractice.element.style.position = 'fixed';
+                activeGoodPractice.element.style.zIndex = '1000';
+                activeGoodPractice.element.style.pointerEvents = 'none'; // Evitar interferencias
+                
+                document.addEventListener('touchmove', dragTouch);
+                document.addEventListener('touchend', stopDrag);
+                e.preventDefault();
+            }
+            
+            function drag(e) {
+                if (!activeGoodPractice || !isDragging) return;
+                activeGoodPractice.element.style.left = `${e.clientX - offsetX}px`;
+                activeGoodPractice.element.style.top = `${e.clientY - offsetY}px`;
+            }
+            
+            function dragTouch(e) {
+                if (!activeGoodPractice || !isDragging) return;
+                const touch = e.touches[0];
+                activeGoodPractice.element.style.left = `${touch.clientX - offsetX}px`;
+                activeGoodPractice.element.style.top = `${touch.clientY - offsetY}px`;
+            }
+            
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', dragTouch);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchend', stopDrag);
+                
+                if (activeGoodPractice) {
+                    // Restaurar estilos normales
+                    activeGoodPractice.element.style.position = '';
+                    activeGoodPractice.element.style.zIndex = '';
+                    activeGoodPractice.element.style.left = '';
+                    activeGoodPractice.element.style.top = '';
+                    activeGoodPractice.element.style.pointerEvents = '';
+                    
+                    // Para modos difícil y experto: mover la tarjeta al final
+                    if (gameMode === 'hard' || gameMode === 'expert') {
+                        // Añadir clase para animación
+                        activeGoodPractice.element.classList.add('moving');
+                        
+                        // Mover la tarjeta al final del contenedor
+                        goodPracticesContainer.appendChild(activeGoodPractice.element);
+                        
+                        // Reorganizar el array goodPractices para mantener la consistencia
+                        const index = goodPractices.indexOf(activeGoodPractice);
+                        if (index > -1) {
+                            goodPractices.splice(index, 1);
+                            goodPractices.push(activeGoodPractice);
+                        }
+                        
+                        // Remover la clase después de la animación
+                        setTimeout(() => {
+                            activeGoodPractice.element.classList.remove('moving');
+                        }, 300);
+                    }
+                    
+                    activeGoodPractice = null;
+                }
+            }
+            
+            // Event listeners
+            startBtn.addEventListener('click', () => isGameRunning ? pauseGame() : startGame());
+            resetBtn.addEventListener('click', resetGame);
+            difficultySelector.addEventListener('change', changeDifficulty);
+            restartBtn.addEventListener('click', resetGame);
+            
+            // Arreglar el botón de parejas
+            pairsHelp.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevenir que el evento se propague al game-board
+                pairsModal.style.display = 'block';
+            });
+            
+            instructionsBtn.addEventListener('click', () => instructionsModal.style.display = 'block');
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    pairsModal.style.display = 'none';
+                    instructionsModal.style.display = 'none';
+                });
+            });
+            
+            // Cerrar modales al hacer clic fuera de ellos
+            gameBoard.addEventListener('click', (e) => {
+                if (e.target === gameBoard) {
+                    pairsModal.style.display = 'none';
+                    instructionsModal.style.display = 'none';
+                }
+            });
+            
+            // Inicializar
+            initGame();
+        });
+    </script>
+</body>
+</html>
